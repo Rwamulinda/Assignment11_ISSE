@@ -142,7 +142,7 @@ double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz) {
              // Handle division by zero
             if (right_val == 0) {
                 // You can choose what behavior you want: return NaN, inf, or an error message.
-                fprintf(stderr, "Error: Division by zero\n");
+                snprintf(stderr, "Error: Division by zero\n");
                 return NAN;  // Return NaN to indicate error
             }
             return left_val / right_val;
