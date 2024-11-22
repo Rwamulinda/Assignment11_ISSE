@@ -122,12 +122,12 @@ double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz) {
 
     // If it's a SYMBOL, retrieve its value from the dictionary
     if (tree->type == SYMBOL) {
-        double *value = CD_retrieve(vars,(char*)tree->n.value);
+        double val = CD_retrieve(vars,tree->n.value);
         if (value == NULL) {
             snprintf(errmsg, errmsg_sz, "Error: Undefined symbol '%s'", (char *)tree->n.value);
             return NAN;
         }
-        return *value;
+        return val;
     }
 
 
