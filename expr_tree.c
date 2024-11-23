@@ -156,7 +156,7 @@ double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz)
     if (tree->type == SYMBOL)
     {
         CDictValueType val = CD_retrieve(vars, tree->n.symbol);
-        if (val == NULL)
+        if (val == 0.0)
         {
             snprintf(errmsg, errmsg_sz, "Error: Undefined symbol '%s'", tree->n.symbol);
             return NAN;
@@ -192,7 +192,8 @@ double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz)
             snprintf(errmsg, errmsg_sz, "Error: Left side of '=' must be a variable");
             return NAN;
         }
-        CD_insert(vars, tree->n.child[LEFT]->n.symbol, right_val);
+        CD_store(vars, tree->n.child[LEFT]->n.symbol, right_val);
+
         return right_val;
     default:
         snprintf(errmsg, errmsg_sz, "Error: Invalid operator");
