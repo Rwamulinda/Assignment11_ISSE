@@ -115,40 +115,37 @@ int ET_depth(ExprTree tree) {
 
 // Documented in .h file
 double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz) {
-    //assert(tree);
     if (tree == NULL) return 0;
     
     if (tree->type == VALUE) return tree->n.value;
 
-    // If it's a SYMBOL, retrieve its value from the dictionary
     if (tree->type == SYMBOL) {
-        double val = CD_retrieve(vars,tree->n.value);
-        if (value == NULL) {
-            snprintf(errmsg, errmsg_sz, "Error: Undefined symbol '%s'", (char *)tree->n.value);
+        CDictValueType val = CD_retrieve(vars, tree->n.symbol);
+        if (val == NULL) {
+            snprintf(errmsg, errmsg_sz, "Error: Undefined symbol '%s'", tree->n.symbol);
             return NAN;
         }
         return val;
     }
 
-
-    double left_val = ET_evaluate(tree->n.child[LEFT],vars, errmsg, errmsg_sz);
-    double right_val = ET_evaluate(tree->n.child[RIGHT],vars, errmsg, errmsg_sz);
+    double left_val = ET_evaluate(tree->n.child[LEFT], vars, errmsg, errmsg_sz);
+    double right_val = ET_evaluate(tree->n.child[RIGHT], vars, errmsg, errmsg_sz);
 
     switch (tree->type) {
         case OP_ADD: return left_val + right_val;
         case OP_SUB: return left_val - right_val;
         case OP_MUL: return left_val * right_val;
-        case OP_DIV: return left_val / right_val;
-             // Handle division by zero
+        case OP_DIV:
             if (right_val == 0) {
-                // You can choose what behavior you want: return NaN, inf, or an error message.
-                snprintf(stderr, "Error: Division by zero\n");
-                return NAN;  // Return NaN to indicate error
+                fprintf(stderr, "Error: Division by zero\n");
+                return NAN;
             }
             return left_val / right_val;
         case OP_POWER: return pow(left_val, right_val);
         case UNARY_NEGATE: return -left_val;
-        default: return 0.0;
+        default:
+            snprintf(errmsg, errmsg_sz, "Error: Invalid operator");
+            return NAN;
     }
 }
 
