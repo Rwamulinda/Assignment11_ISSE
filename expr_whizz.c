@@ -1,25 +1,3 @@
-/*
- * expr_whizz.c
- * 
- * A recursive descent parser for a simple arithmetic calculator, with
- * the operators + - * / % ^, and unary minus. Values are held as
- * doubles.
- *
- * Author: <your name here>
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-#include "clist.h"
-#include "token.h"
-#include "tokenize.h"
-#include "expr_tree.h"
-#include "parse.h"
-
 int main(int argc, char *argv[])
 {
   char *input = NULL;
@@ -28,7 +6,7 @@ int main(int argc, char *argv[])
   char errmsg[128];
   bool time_to_quit = false;
   char expr_buf[1024];
-  CDict dict = CD_new();
+  CDict dict = CD_new();  // Dictionary for variables
 
   printf("Welcome to ExpressionWhizz!\n");
 
@@ -68,7 +46,13 @@ int main(int argc, char *argv[])
 
     ET_tree2string(tree, expr_buf, sizeof(expr_buf));
     
-    printf("%s  ==> %g\n", expr_buf, ET_evaluate(tree));
+    // Pass 'dict' as the second argument to ET_evaluate
+    double result = ET_evaluate(tree, dict, errmsg, sizeof(errmsg));
+    if (*errmsg != '\0') { // Error handling
+      fprintf(stderr, "Error: %s\n", errmsg);
+    } else {
+      printf("%s  ==> %g\n", expr_buf, result);
+    }
 
   loop_end:
     free(input);
@@ -78,7 +62,9 @@ int main(int argc, char *argv[])
     ET_free(tree);
     tree = NULL;
   }
-  
-  //TODO: Free the dictionary
+
+  // Free the dictionary before exiting
+  CD_free(dict);
+
   return 0;
 }
