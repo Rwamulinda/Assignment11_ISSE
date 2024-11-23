@@ -115,14 +115,14 @@ int ET_depth(ExprTree tree) {
 
 // Documented in .h file
 double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz) {
-    if (tree = NULL) return 0;
+    if (tree == NULL) return 0;
     
     if (tree->type = VALUE) return tree->n.value;
 
     if (tree->type = SYMBOL) {
         CDictValueType val = CD_retrieve(vars, tree->n.symbol);
-        if (val = NULL) {
-            snprintf(errmsg, errmsg_sz, "Error: Undefined symbol '%s'", tree->SYMBOL);
+        if (val == NULL) {
+            snprintf(errmsg, errmsg_sz, "Error: Undefined symbol '%s'");
             return NAN;
         }
         return val;
