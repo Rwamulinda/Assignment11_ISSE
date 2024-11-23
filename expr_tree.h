@@ -106,6 +106,10 @@ int ET_depth(ExprTree tree);
  * 
  * Returns: The computed value
  */
+
+// expr_tree.h
+
+
 double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz);
 
 
@@ -123,6 +127,8 @@ double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz);
 * encountered, copies an error message into errmsg and returns NaN.
 */
 size_t ET_tree2string(ExprTree tree, char *buf, size_t buf_sz);
+
+ExprTree ET_symbol(const char *symbol);
 
 
 #endif /* _EXPR_TREE_H_ */
