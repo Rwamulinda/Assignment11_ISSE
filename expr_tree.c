@@ -156,7 +156,7 @@ double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz)
     if (tree->type == SYMBOL)
     {
         CDictValueType val = CD_retrieve(vars, tree->n.symbol);
-        if (val == NULL)
+        if (isnan(val))
         {
             snprintf(errmsg, errmsg_sz, "Error: Undefined symbol '%s'", tree->n.symbol);
             return NAN;

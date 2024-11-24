@@ -242,7 +242,7 @@ CDictValueType CD_retrieve(CDict dict, CDictKeyType key)
     unsigned int probe = (index + i) % dict->capacity;
     if (dict->slot[probe].status == SLOT_UNUSED)
     {
-      return 0.0;
+      return NAN;
     }
     if (dict->slot[probe].status == SLOT_IN_USE &&
         strcmp(dict->slot[probe].key, key) == 0)
@@ -250,7 +250,7 @@ CDictValueType CD_retrieve(CDict dict, CDictKeyType key)
       return dict->slot[probe].value;
     }
   }
-  return 0.0;
+  return NAN;
 }
 
 void CD_delete(CDict dict, CDictKeyType key)
