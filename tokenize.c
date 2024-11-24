@@ -141,9 +141,9 @@ CList TOK_tokenize_input(const char *input, char *errmsg, size_t errmsg_sz)
       case ')':
         token.type = TOK_CLOSE_PAREN;
         break;
-      case '=':
-        token.type = TOK_EQUAL;
-        break;
+      // case '=':
+      //   token.type = TOK_EQUAL;
+      //   break;
       default:
         // Handle unexpected characters with specific position
         snprintf(errmsg, errmsg_sz, "Position %zu: unexpected character %c", i + 1, input[i]);

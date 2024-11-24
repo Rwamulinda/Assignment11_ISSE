@@ -43,7 +43,7 @@ static ExprTree assignment(CList tokens, char *errmsg, size_t errmsg_sz)
     if (TOK_next_type(tokens) == TOK_EQUAL)
     {
       TOK_consume(tokens);                                    // Consume '='
-      ExprTree value = assignment(tokens, errmsg, errmsg_sz); // Parse the right-hand side
+      ExprTree value = additive(tokens, errmsg, errmsg_sz); // Parse the right-hand side of the assignment
       if (value == NULL)
       {
         snprintf(errmsg, errmsg_sz, "Error parsing right-hand side of assignment");
@@ -53,9 +53,10 @@ static ExprTree assignment(CList tokens, char *errmsg, size_t errmsg_sz)
     }
   }
 
-  // If no assignment detected, fall back to the next rule
+  // If no assignment detected, fall back to the next rule (additive)
   return additive(tokens, errmsg, errmsg_sz);
 }
+
 
 static ExprTree additive(CList tokens, char *errmsg, size_t errmsg_sz)
 {
