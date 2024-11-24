@@ -207,22 +207,28 @@ size_t ET_tree2string(ExprTree tree, char *buf, size_t buf_sz)
     if (buf_sz == 0 || tree == NULL)
         return 0;
 
+    size_t len = 0;
+
     // Handle VALUE nodes
     if (tree->type == VALUE)
     {
-        return snprintf(buf, buf_sz, "%g", tree->n.value);
+        len = snprintf(buf, buf_sz, "%g", tree->n.value);
+        return len;
+    }
+
+    // Handle SYMBOL nodes
+    if (tree->type == SYMBOL)
+    {
+        len = snprintf(buf, buf_sz, "%s", tree->n.symbol);
+        return len;
     }
 
     // Handle UNARY NEGATE type specifically
     if (tree->type == UNARY_NEGATE)
     {
-        size_t len = 0;
-        if (buf_sz > 1)
-        {
-            buf[len++] = '(';
-        }
+        if (buf_sz < 2) return 0; // not enough space for '(' and '-'
 
-        // Add the unary minus operator
+        buf[len++] = '(';
         if (len < buf_sz - 1)
         {
             buf[len++] = ExprNodeType_to_char(UNARY_NEGATE);
@@ -234,7 +240,7 @@ size_t ET_tree2string(ExprTree tree, char *buf, size_t buf_sz)
         // Check if the buffer overflowed
         if (len >= buf_sz)
         {
-            buf[buf_sz - 1] = '$';
+            buf[buf_sz - 1] = '$'; // indication of truncation
             buf[buf_sz - 2] = '\0';
             return buf_sz - 1;
         }
@@ -249,42 +255,27 @@ size_t ET_tree2string(ExprTree tree, char *buf, size_t buf_sz)
         return len;
     }
 
+    // For operators (binary expressions)
     char op = ExprNodeType_to_char(tree->type);
 
-    size_t len = 0;
-    if (buf_sz > 1)
-    {
-        buf[len++] = '(';
-    }
+    if (buf_sz < 3) return 0; // need space for at least one operator and parens
 
+    buf[len++] = '(';
+
+    // Handle the left child
     size_t left_len = ET_tree2string(tree->n.child[LEFT], buf + len, buf_sz - len);
     len += left_len;
-    if (len >= buf_sz - 1)
-        return len;
+    if (len >= buf_sz) return len; // prevent buffer overrun
 
-    if (len < buf_sz - 1)
-    {
-        buf[len++] = op;
-    }
+    buf[len++] = op;
 
+    // Handle the right child
     size_t right_len = ET_tree2string(tree->n.child[RIGHT], buf + len, buf_sz - len);
     len += right_len;
-    if (len >= buf_sz - 1)
-        return len;
+    if (len >= buf_sz) return len; // prevent buffer overrun
 
-    if (len < buf_sz - 1)
-    {
-        buf[len++] = ')';
-    }
-
+    buf[len++] = ')';
     buf[len] = '\0';
-
-    if (len >= buf_sz)
-    {
-        buf[buf_sz - 1] = '$';
-        buf[buf_sz - 2] = '\0';
-        return buf_sz - 1;
-    }
 
     return len;
 }
