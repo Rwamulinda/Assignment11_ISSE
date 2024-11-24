@@ -198,7 +198,7 @@ ExprTree Parse(CList tokens, char *errmsg, size_t errmsg_sz)
   }
 
   // Debugging: print the next token after parsing the expression
-  printf("Next token after parsing: %s\n", TT_to_str(TOK_next_type(tokens)))
+  printf("Next token after parsing: %s\n", TT_to_str(TOK_next_type(tokens)));
 
   // Ensure we have reached the end of input
   if (TOK_next_type(tokens) != TOK_END)
