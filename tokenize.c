@@ -140,6 +140,7 @@ CList TOK_tokenize_input(const char *input, char *errmsg, size_t errmsg_sz)
         break;
       case ')':
         token.type = TOK_CLOSE_PAREN;
+        break;
       case '=':
         token.type = TOK_EQUAL;
         break;
