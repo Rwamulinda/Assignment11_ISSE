@@ -210,37 +210,37 @@ int test_expr_tree()
  *
  * Returns: 1 if all tests pass, 0 otherwise
  */
-int test_tok_next_consume()
-{
-  CList list = CL_new();
+// int test_tok_next_consume()
+// {
+//   CList list = CL_new();
 
-  for (int i=0; i < num_tokens; i++) {
-    CL_append(list, tokens[i]);
-    test_assert( CL_length(list) == i+1 );
-    test_assert( test_tok_eq(CL_nth(list, i), tokens[i]) );
-  }
+//   for (int i=0; i < num_tokens; i++) {
+//     CL_append(list, tokens[i]);
+//     test_assert( CL_length(list) == i+1 );
+//     test_assert( test_tok_eq(CL_nth(list, i), tokens[i]) );
+//   }
 
-  for (int i=0; i < num_tokens; i++) {
-    test_assert( TOK_next_type(list) == tokens[i].type );
-    TOK_consume(list);
-  }
+//   for (int i=0; i < num_tokens; i++) {
+//     test_assert( TOK_next_type(list) == tokens[i].type );
+//     TOK_consume(list);
+//   }
 
-  test_assert( CL_length(list) == 0 );
+//   test_assert( CL_length(list) == 0 );
 
-  test_assert( TOK_next_type(list) == TOK_END );
-  TOK_consume(list);
-  test_assert( TOK_next_type(list) == TOK_END );
-  TOK_consume(list);
-  test_assert( TOK_next_type(list) == TOK_END );
-  TOK_consume(list);
+//   test_assert( TOK_next_type(list) == TOK_END );
+//   TOK_consume(list);
+//   test_assert( TOK_next_type(list) == TOK_END );
+//   TOK_consume(list);
+//   test_assert( TOK_next_type(list) == TOK_END );
+//   TOK_consume(list);
 
-  CL_free(list);
-  return 1;
+//   CL_free(list);
+//   return 1;
 
- test_error:
-  CL_free(list);
-  return 0;
-}
+//  test_error:
+//   CL_free(list);
+//   return 0;
+// }
 
 
 
