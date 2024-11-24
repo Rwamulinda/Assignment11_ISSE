@@ -197,6 +197,8 @@ void CD_store(CDict dict, CDictKeyType key, CDictValueType value)
   assert(key);
   assert(value);
 
+
+  printf("Storing key: %s with value: %.2f\n", key, value);  // Debug print
   unsigned int index = _CD_hash(key, dict->capacity);
 
   for (unsigned int i = 0; i < dict->capacity; i++)
