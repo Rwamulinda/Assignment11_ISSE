@@ -42,7 +42,7 @@ static ExprTree assignment(CList tokens, char *errmsg, size_t errmsg_sz)
       Token symbol = TOK_next(tokens);
       TOK_consume(tokens);            
       TOK_consume(tokens);                             
-      ExprTree value = additive(tokens, errmsg, errmsg_sz); // Parse the right-hand side of the assignment
+      ExprTree value = assignment(tokens, errmsg, errmsg_sz); // Parse the right-hand side of the assignment
       if (value == NULL)
       {
         snprintf(errmsg, errmsg_sz, "Error parsing right-hand side of assignment");
