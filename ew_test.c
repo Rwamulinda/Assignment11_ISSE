@@ -427,11 +427,11 @@ int test_parse_err_once(const Token token_arr[])
  */
 int test_parse()
 {
-  test_assert( test_parse_once(3.5, 1, (Token []){{TOK_VALUE, 3.5}, {TOK_END}}) );
+  test_assert( test_parse_once(3.5, 1, (Token []){{TOK_VALUE, {3.5}}, {TOK_END}}) );
 
   // Test with parentheses
-  test_assert(test_parse_once(21, 3, (Token []){{TOK_OPEN_PAREN}, {TOK_VALUE, 3}, {TOK_PLUS}, 
-  {TOK_VALUE, 4}, {TOK_CLOSE_PAREN}, {TOK_MULTIPLY}, {TOK_VALUE, 3}, {TOK_END}}));
+  test_assert(test_parse_once(21, 3, (Token []){{TOK_OPEN_PAREN}, {TOK_VALUE, {3}}, {TOK_PLUS}, 
+  {TOK_VALUE, {4}}, {TOK_CLOSE_PAREN}, {TOK_MULTIPLY}, {TOK_VALUE, {3}}, {TOK_END}}));
     
   //
   return 1;
@@ -450,17 +450,17 @@ int test_parse()
 int test_parse_associativity()
 {
   test_assert( test_parse_once(5, 3,
-          (Token []){{TOK_VALUE, 10}, {TOK_MINUS}, {TOK_VALUE, 2}, {TOK_MINUS},
-                     {TOK_VALUE, 3}, {TOK_END}}));
+          (Token []){{TOK_VALUE, {10}}, {TOK_MINUS}, {TOK_VALUE, {2}}, {TOK_MINUS},
+                     {TOK_VALUE, {3}}, {TOK_END}}));
 
 
 
   //Test right associativity for exponentiation
   test_assert(test_parse_once(16, 2,
-        (Token []){{TOK_VALUE, 2}, {TOK_POWER}, {TOK_VALUE, 4}, {TOK_END}}));
+        (Token []){{TOK_VALUE, {2}}, {TOK_POWER}, {TOK_VALUE, {4}}, {TOK_END}}));
 
    // Test invalid expressions
-  test_assert(test_parse_err_once((Token []){{TOK_VALUE, 1}, {TOK_PLUS}, {TOK_END}})); // Missing operand
+  test_assert(test_parse_err_once((Token []){{TOK_VALUE, {1}}, {TOK_PLUS}, {TOK_END}})); // Missing operand
   test_assert(test_parse_err_once((Token []){{TOK_OPEN_PAREN}, {TOK_END}})); // Unmatched parentheses      
 
   //
@@ -480,15 +480,15 @@ int test_parse_errors()
 {
   // 2 ++ 3, 
   test_assert( test_parse_err_once((Token [])
-          {{TOK_VALUE, 2}, {TOK_PLUS}, {TOK_PLUS}, {TOK_VALUE, 3}, {TOK_END}}));
+          {{TOK_VALUE, {2}}, {TOK_PLUS}, {TOK_PLUS}, {TOK_VALUE, {3}}, {TOK_END}}));
 
   // new test case of 3 + (2 *
   test_assert(test_parse_err_once((Token [])
-        {{TOK_VALUE, 3}, {TOK_PLUS}, {TOK_OPEN_PAREN}, {TOK_VALUE, 2}, {TOK_MULTIPLY}, {TOK_END}}));
+        {{TOK_VALUE, {3}}, {TOK_PLUS}, {TOK_OPEN_PAREN}, {TOK_VALUE, {2}}, {TOK_MULTIPLY}, {TOK_END}}));
 
 // new test case of 3 + ) 2
   test_assert(test_parse_err_once((Token [])
-        {{TOK_VALUE, 3}, {TOK_PLUS}, {TOK_CLOSE_PAREN}, {TOK_VALUE, 2}, {TOK_END}}));
+        {{TOK_VALUE, {3}}, {TOK_PLUS}, {TOK_CLOSE_PAREN}, {TOK_VALUE, {2}}, {TOK_END}}));
 
   return 1;
 
