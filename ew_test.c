@@ -165,7 +165,7 @@ int test_expr_tree()
   tree = ET_node(UNARY_NEGATE, ET_value(value), NULL);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree, dict,errmsg, size_t errmsg_sz);
+  result = ET_evaluate(tree, dict,errmsg, sizeof(errmsg_sz));
   depth = ET_depth(tree);
   test_assert( result == -value );
   test_assert( strcmp_sp(buffer, "(-0.125)") == 0 );
@@ -176,7 +176,7 @@ int test_expr_tree()
   tree = ET_node(UNARY_NEGATE, tree, NULL);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree,dict,errmsg, size_t errmsg_sz);
+  result = ET_evaluate(tree,dict,errmsg,sizeof(errmsg_sz));
   depth = ET_depth(tree);
   test_assert( result == value );
   test_assert( strcmp_sp(buffer, "(-(-0.125))") == 0 );
@@ -190,7 +190,7 @@ int test_expr_tree()
   tree = ET_node(OP_MUL, ET_value(6.5), tree);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree, dict,errmsg, size_t errmsg_sz);
+  result = ET_evaluate(tree, dict,errmsg,sizeof(errmsg_sz));
   depth = ET_depth(tree);
 
   test_assert( result == 45.5 );
@@ -199,7 +199,7 @@ int test_expr_tree()
   test_assert( depth == 3 );
 
   ret = 1;
-  
+
 
  test_error:
   ET_free(tree);
@@ -295,7 +295,7 @@ int test_tokenize_input()
     for (int t=0; tests[i].exp_tokens[t].type != TOK_END; t++) {
       test_assert( TOK_next_type(list) == tests[i].exp_tokens[t].type );
       if (TOK_next_type(list) == TOK_VALUE)
-        test_assert( TOK_next(list).value == tests[i].exp_tokens[t].value );
+        test_assert( TOK_next(list).value == tests[i].exp_tokens[t].t.value );
       TOK_consume(list);
     }
 
