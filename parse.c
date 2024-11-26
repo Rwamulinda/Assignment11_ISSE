@@ -37,12 +37,11 @@ static ExprTree assignment(CList tokens, char *errmsg, size_t errmsg_sz)
 {
   if (TOK_next_type(tokens) == TOK_SYMBOL)
   {
-    Token symbol = TOK_next(tokens); // Capture the symbol
-    TOK_consume(tokens);             // Consume the symbol
-
-    if (TOK_next_type(tokens) == TOK_EQUAL)
+    if (TOK_next_next_type(tokens) == TOK_EQUAL)
     {
-      TOK_consume(tokens);                                  // Consume '='
+      Token symbol = TOK_next(tokens);
+      TOK_consume(tokens);            
+      TOK_consume(tokens);                             
       ExprTree value = additive(tokens, errmsg, errmsg_sz); // Parse the right-hand side of the assignment
       if (value == NULL)
       {

@@ -158,10 +158,20 @@ double ET_evaluate(ExprTree tree, CDict vars, char *errmsg, size_t errmsg_sz)
         CDictValueType val = CD_retrieve(vars, tree->n.symbol);
         if (isnan(val))
         {
-            snprintf(errmsg, errmsg_sz, "Error: Undefined symbol '%s'", tree->n.symbol);
+            snprintf(errmsg, errmsg_sz, "Undefined symbol '%s'", tree->n.symbol);
             return NAN;
         }
         return val;
+    }
+
+
+    // TODO: Before going to the left first handle the OP_ASSIGN type
+    if (tree->type == OP_ASSIGN)
+    {
+        // Directly store the evaluated right-hand value in the left-hand symbol
+        double value = ET_evaluate(tree->n.child[RIGHT], vars, errmsg, errmsg_sz);
+        CD_store(vars, tree->n.child[LEFT]->n.symbol, value);
+        return value; // Return the assigned value
     }
 
     double left_val = ET_evaluate(tree->n.child[LEFT], vars, errmsg, errmsg_sz);

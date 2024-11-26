@@ -176,6 +176,16 @@ TokenType TOK_next_type(CList tokens)
   return token.type;
 }
 
+TokenType TOK_next_next_type(CList tokens)
+{
+  if (CL_length(tokens) == 0)
+  {
+    return TOK_END;
+  }
+  Token token = CL_nth(tokens, 1);
+  return token.type;
+}
+
 // Documented in .h file
 Token TOK_next(CList tokens)
 {

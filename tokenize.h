@@ -64,6 +64,19 @@ TokenType TOK_next_type(CList tokens);
  * 
  * Returns: The next token.
  */
+
+
+TokenType TOK_next_next_type(CList tokens);
+
+/*
+ * Returns the next token. Does not modify the list of tokens.
+ *
+ * Parameters:
+ *   tokens    The list of tokens
+ * 
+ * Returns: The next token.
+ */
+
 Token TOK_next(CList tokens);
 
 
