@@ -295,7 +295,7 @@ int test_tokenize_input()
     for (int t=0; tests[i].exp_tokens[t].type != TOK_END; t++) {
       test_assert( TOK_next_type(list) == tests[i].exp_tokens[t].type );
       if (TOK_next_type(list) == TOK_VALUE)
-        test_assert( TOK_next(list).value == tests[i].exp_tokens[t].t.value );
+        test_assert( TOK_next(list).t.value == tests[i].exp_tokens[t].t.value );
       TOK_consume(list);
     }
 
