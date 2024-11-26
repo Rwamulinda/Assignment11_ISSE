@@ -44,7 +44,7 @@ static bool test_tok_eq(Token tok1, Token tok2)
   if (tok1.type != tok2.type)
     return false;
 
-  if (tok1.type == TOK_VALUE && fabs(tok1.value - tok2.value) >= 0.0001)
+  if (tok1.type == TOK_VALUE && fabs(tok1.t.value - tok2.t.value) >= 0.0001)
     return false;
 
   return true;
@@ -158,12 +158,14 @@ int test_expr_tree()
   int depth;
   const double value = 0.125;
   int ret = 0;
+  CDict dict = CD_new();
+  char errmsg[256];
 
   // -(0.125) (using unary negation)
   tree = ET_node(UNARY_NEGATE, ET_value(value), NULL);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree);
+  result = ET_evaluate(tree, dict,errmsg, size_t errmsg_sz);
   depth = ET_depth(tree);
   test_assert( result == -value );
   test_assert( strcmp_sp(buffer, "(-0.125)") == 0 );
@@ -174,7 +176,7 @@ int test_expr_tree()
   tree = ET_node(UNARY_NEGATE, tree, NULL);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree);
+  result = ET_evaluate(tree,dict,errmsg, size_t errmsg_sz);
   depth = ET_depth(tree);
   test_assert( result == value );
   test_assert( strcmp_sp(buffer, "(-(-0.125))") == 0 );
@@ -188,7 +190,7 @@ int test_expr_tree()
   tree = ET_node(OP_MUL, ET_value(6.5), tree);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree);
+  result = ET_evaluate(tree, dict,errmsg, size_t errmsg_sz);
   depth = ET_depth(tree);
 
   test_assert( result == 45.5 );
@@ -197,6 +199,7 @@ int test_expr_tree()
   test_assert( depth == 3 );
 
   ret = 1;
+  
 
  test_error:
   ET_free(tree);
