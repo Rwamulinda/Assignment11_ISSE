@@ -165,7 +165,7 @@ int test_expr_tree()
   tree = ET_node(UNARY_NEGATE, ET_value(value), NULL);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree, dict,errmsg, sizeof(errmsg_sz));
+  result = ET_evaluate(tree, dict,errmsg, sizeof(errmsg));
   depth = ET_depth(tree);
   test_assert( result == -value );
   test_assert( strcmp_sp(buffer, "(-0.125)") == 0 );
@@ -176,7 +176,7 @@ int test_expr_tree()
   tree = ET_node(UNARY_NEGATE, tree, NULL);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree,dict,errmsg,sizeof(errmsg_sz));
+  result = ET_evaluate(tree,dict,errmsg,sizeof(errmsg));
   depth = ET_depth(tree);
   test_assert( result == value );
   test_assert( strcmp_sp(buffer, "(-(-0.125))") == 0 );
@@ -190,7 +190,7 @@ int test_expr_tree()
   tree = ET_node(OP_MUL, ET_value(6.5), tree);
   
   len = ET_tree2string(tree, buffer, sizeof(buffer));
-  result = ET_evaluate(tree, dict,errmsg,sizeof(errmsg_sz));
+  result = ET_evaluate(tree, dict,errmsg,sizeof(errmsg));
   depth = ET_depth(tree);
 
   test_assert( result == 45.5 );
@@ -375,7 +375,7 @@ int test_parse_once(double exp_value, int exp_depth, const Token token_arr[])
   tree = Parse(tokens, errmsg, sizeof(errmsg));
 
   test_assert( ET_depth(tree) == exp_depth );
-  test_assert( fabs(ET_evaluate(tree, dict,errmsg, sizeof(errmsg_sz)) - exp_value) < 0.0001 );
+  test_assert( fabs(ET_evaluate(tree, dict,errmsg, sizeof(errmsg)) - exp_value) < 0.0001 );
 
   ret = 1;
 
