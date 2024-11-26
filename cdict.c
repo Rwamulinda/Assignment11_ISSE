@@ -76,17 +76,9 @@ static void _CD_rehash(CDict dict)
   unsigned int new_capacity = dict->capacity * 2;
   struct _hash_slot *old_slots = dict->slot;
 
-  struct _hash_slot *new_slots = malloc(new_capacity * sizeof(struct _hash_slot));
+  struct _hash_slot *new_slots = calloc(new_capacity, sizeof(struct _hash_slot));
   if (!new_slots)
     return; // Allocation failed, skip rehashing
-
-  // Initialize the new slots
-  for (unsigned int i = 0; i < new_capacity; i++)
-  {
-    new_slots[i].status = SLOT_UNUSED;
-    new_slots[i].key = "";
-    new_slots[i].value = 0.0;
-  }
 
   dict->slot = new_slots;
   new_slots = NULL;
@@ -102,6 +94,7 @@ static void _CD_rehash(CDict dict)
     if (old_slots[i].status == SLOT_IN_USE)
     {
       CD_store(dict, old_slots[i].key, old_slots[i].value);
+      free((void*)old_slots[i].key);
     }
   }
 
@@ -134,6 +127,12 @@ void CD_free(CDict dict)
 {
   if (!dict)
     return;
+
+  for(int i = 0; i < dict->capacity; i++) {
+    if(dict->slot[i].status == SLOT_IN_USE) {
+      free((void*)dict->slot[i].key);
+    }
+  }
 
   free(dict->slot);
   free(dict);
