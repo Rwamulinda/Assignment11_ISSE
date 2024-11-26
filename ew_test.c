@@ -366,6 +366,7 @@ int test_parse_once(double exp_value, int exp_depth, const Token token_arr[])
   ExprTree tree = NULL;
   char errmsg[256] = {0};
   int ret = 0;
+  CDict dict = CD_new();
 
   tokens = CL_new();
 
