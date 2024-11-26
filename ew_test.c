@@ -30,7 +30,7 @@
     }                                                                   \
   }
 
-Token tokens[] = { {TOK_VALUE, 2}, {TOK_PLUS}, {TOK_MINUS}, {TOK_MULTIPLY},
+Token tokens[] = { {TOK_VALUE, {2}}, {TOK_PLUS}, {TOK_MINUS}, {TOK_MULTIPLY},
                    {TOK_DIVIDE}, {TOK_POWER}, {TOK_OPEN_PAREN}, {TOK_CLOSE_PAREN},
                    {TOK_END}, {TOK_DIVIDE}, {TOK_POWER} };
 const int num_tokens = sizeof(tokens) / sizeof(tokens[0]);
@@ -259,22 +259,22 @@ int test_tokenize_input()
   test_matrix_t tests[] =
     {
       // from writeup examples
-      {"3.5", {{TOK_VALUE, 3.5}, {TOK_END}}},
-      {"     3", {{TOK_VALUE, 3}, {TOK_END}}},
+      {"3.5", {{TOK_VALUE, {3.5}}, {TOK_END}}},
+      {"     3", {{TOK_VALUE, {3}}, {TOK_END}}},
 
   //
   // TODO: Add your code here
       // Add more tests
-      {"1 + 2", {{TOK_VALUE, 1}, {TOK_PLUS}, {TOK_VALUE, 2}, {TOK_END}}},
-      {"  4*5 + 6 ", {{TOK_VALUE, 4}, {TOK_MULTIPLY}, {TOK_VALUE, 5}, {TOK_PLUS}, {TOK_VALUE, 6}, {TOK_END}}},
-      {"(3 + 4) * 5", {{TOK_OPEN_PAREN}, {TOK_VALUE, 3}, {TOK_PLUS}, {TOK_VALUE, 4}, {TOK_CLOSE_PAREN}, {TOK_MULTIPLY}, {TOK_VALUE, 5}, {TOK_END}}},
+      {"1 + 2", {{TOK_VALUE, {1}}, {TOK_PLUS}, {TOK_VALUE, {2}}, {TOK_END}}},
+      {"  4*5 + 6 ", {{TOK_VALUE, {4}}, {TOK_MULTIPLY}, {TOK_VALUE, {5}}, {TOK_PLUS}, {TOK_VALUE, {6}}, {TOK_END}}},
+      {"(3 + 4) * 5", {{TOK_OPEN_PAREN}, {TOK_VALUE, {3}}, {TOK_PLUS}, {TOK_VALUE, {4}}, {TOK_CLOSE_PAREN}, {TOK_MULTIPLY}, {TOK_VALUE, {5}}, {TOK_END}}},
         // Empty inputs
 
-      {"-1 + 2", {{TOK_MINUS}, {TOK_VALUE, 1}, {TOK_PLUS}, {TOK_VALUE, 2}, {TOK_END}}},
-      {"5 * (3 - 4)", {{TOK_VALUE, 5}, {TOK_MULTIPLY}, {TOK_OPEN_PAREN}, {TOK_VALUE, 3}, {TOK_MINUS}, {TOK_VALUE, 4}, {TOK_CLOSE_PAREN}, {TOK_END}}},
-      {"10 / 2 + 3", {{TOK_VALUE, 10}, {TOK_DIVIDE}, {TOK_VALUE, 2}, {TOK_PLUS}, {TOK_VALUE, 3}, {TOK_END}}},
-      {"2 ^ 3", {{TOK_VALUE, 2}, {TOK_POWER}, {TOK_VALUE, 3}, {TOK_END}}},
-      {"3e10 + 1", {{TOK_VALUE, 3e10}, {TOK_PLUS}, {TOK_VALUE, 1}, {TOK_END}}},   
+      {"-1 + 2", {{TOK_MINUS}, {TOK_VALUE, {1}}, {TOK_PLUS}, {TOK_VALUE, {2}}, {TOK_END}}},
+      {"5 * (3 - 4)", {{TOK_VALUE, {5}}, {TOK_MULTIPLY}, {TOK_OPEN_PAREN}, {TOK_VALUE, {3}}, {TOK_MINUS}, {TOK_VALUE, {4}}, {TOK_CLOSE_PAREN}, {TOK_END}}},
+      {"10 / 2 + 3", {{TOK_VALUE, {10}}, {TOK_DIVIDE}, {TOK_VALUE, {2}}, {TOK_PLUS}, {TOK_VALUE, {3}}, {TOK_END}}},
+      {"2 ^ 3", {{TOK_VALUE, {2}}, {TOK_POWER}, {TOK_VALUE, {3}}, {TOK_END}}},
+      {"3e10 + 1", {{TOK_VALUE, {3e10}}, {TOK_PLUS}, {TOK_VALUE, {1}}, {TOK_END}}},   
       
   //
       // empty inputs
