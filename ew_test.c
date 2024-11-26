@@ -375,7 +375,7 @@ int test_parse_once(double exp_value, int exp_depth, const Token token_arr[])
   tree = Parse(tokens, errmsg, sizeof(errmsg));
 
   test_assert( ET_depth(tree) == exp_depth );
-  test_assert( fabs(ET_evaluate(tree) - exp_value) < 0.0001 );
+  test_assert( fabs(ET_evaluate(tree, dict,errmsg, sizeof(errmsg_sz)) - exp_value) < 0.0001 );
 
   ret = 1;
 
